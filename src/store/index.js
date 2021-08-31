@@ -1,3 +1,4 @@
+// import { forEach } from "core-js/core/array";
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -6,12 +7,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     count: 0,
+    totalItemsInCart:0,
     cart:[],
     orders:[],
     products: 
       [
         {
           id: 1,
+          quantity:0,
           title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
           price: 109.95,
           description:
@@ -21,6 +24,7 @@ export default new Vuex.Store({
         },
         {
           id: 2,
+          quantity:0,
           title: "Mens Casual Premium Slim Fit T-Shirts ",
           price: 22.3,
           description:
@@ -31,6 +35,7 @@ export default new Vuex.Store({
         },
         {
           id: 3,
+          quantity:0,
           title: "Mens Cotton Jacket",
           price: 55.99,
           description:
@@ -40,6 +45,7 @@ export default new Vuex.Store({
         },
         {
           id: 4,
+          quantity:0,
           title: "Mens Casual Slim Fit",
           price: 15.99,
           description:
@@ -49,6 +55,7 @@ export default new Vuex.Store({
         },
         {
           id: 5,
+          quantity:0,
           title:
             "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
           price: 695,
@@ -60,6 +67,7 @@ export default new Vuex.Store({
         },
         {
           id: 6,
+          quantity:0,
           title: "Solid Gold Petite Micropave ",
           price: 168,
           description:
@@ -70,6 +78,7 @@ export default new Vuex.Store({
         },
         {
           id: 7,
+          quantity:0,
           title: "White Gold Plated Princess",
           price: 9.99,
           description:
@@ -80,6 +89,7 @@ export default new Vuex.Store({
         },
         {
           id: 8,
+          quantity:0,
           title: "Pierced Owl Rose Gold Plated Stainless Steel Double",
           price: 10.99,
           description:
@@ -90,6 +100,7 @@ export default new Vuex.Store({
         },
         {
           id: 9,
+          quantity:0,
           title: "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
           price: 64,
           description:
@@ -99,6 +110,7 @@ export default new Vuex.Store({
         },
         {
           id: 10,
+          quantity:0,
           title: "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
           price: 109,
           description:
@@ -108,6 +120,7 @@ export default new Vuex.Store({
         },
         {
           id: 11,
+          quantity:0,
           title:
             "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
           price: 109,
@@ -118,6 +131,7 @@ export default new Vuex.Store({
         },
         {
           id: 12,
+          quantity:0,
           title:
             "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
           price: 114,
@@ -128,6 +142,7 @@ export default new Vuex.Store({
         },
         {
           id: 13,
+          quantity:0,
           title:
             "Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin",
           price: 599,
@@ -138,6 +153,7 @@ export default new Vuex.Store({
         },
         {
           id: 14,
+          quantity:0,
           title:
             "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ",
           price: 999.99,
@@ -148,6 +164,7 @@ export default new Vuex.Store({
         },
         {
           id: 15,
+          quantity:0,
           title: "BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats",
           price: 56.99,
           description:
@@ -157,6 +174,7 @@ export default new Vuex.Store({
         },
         {
           id: 16,
+          quantity:0,
           title:
             "Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket",
           price: 29.95,
@@ -167,6 +185,7 @@ export default new Vuex.Store({
         },
         {
           id: 17,
+          quantity:0,
           title: "Rain Jacket Women Windbreaker Striped Climbing Raincoats",
           price: 39.99,
           description:
@@ -176,6 +195,7 @@ export default new Vuex.Store({
         },
         {
           id: 18,
+          quantity:0,
           title: "MBJ Women's Solid Short Sleeve Boat Neck V ",
           price: 9.85,
           description:
@@ -185,6 +205,7 @@ export default new Vuex.Store({
         },
         {
           id: 19,
+          quantity:0,
           title: "Opna Women's Short Sleeve Moisture",
           price: 7.95,
           description:
@@ -194,6 +215,7 @@ export default new Vuex.Store({
         },
         {
           id: 20,
+          quantity:0,
           title: "DANVOUY Womens T Shirt Casual Cotton Short",
           price: 12.99,
           description:
@@ -206,7 +228,36 @@ export default new Vuex.Store({
   },
   mutations: {
     addToCart(state,payload){
-      state.cart.push(payload)
+      let found = 0
+      if (state.cart.length != 0) {
+        state.cart.forEach(e=>{
+          if(e.id === payload.id){
+            state.totalItemsInCart++
+            e.quantity+=1
+            found++
+            console.log(e.quantity,"item.....")
+          }
+         
+        })
+        if (found == 0) {
+          state.totalItemsInCart++
+          let data = payload
+          data.quantity+=1
+          // console.log(data)
+          state.cart.push(data)
+        }else{
+          console.log("sorry not added to list")
+        }
+      
+      }else{
+        state.totalItemsInCart++
+        let data = payload
+        data.quantity+=1
+        // console.log(data)
+        state.cart.push(payload)
+      }
+console.log(state.cart)
+    
     },
     removeToDo(state, payload) {
       state.todos.splice(payload, 1);
@@ -224,11 +275,20 @@ export default new Vuex.Store({
       payload.forEach(element => {
         state.orders.push(element);
        
-      });
-      state.cart = []
+      });  
+      
+    },
+    checkOut(state) {
+       state.cart = []
+      
     }
   },
   actions: {
+  
+    checkOut({commit}){
+      debugger
+      commit("checkOut");
+    },
     placeOrder({commit},payload){
       debugger
       commit("placeOrder", payload);

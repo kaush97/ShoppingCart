@@ -63,7 +63,7 @@
             <li><button class="join-button" href="#">Join</button></li>
         </ul>
     </nav> -->
-    <div class="hero-anime">
+    <div class="hero-anime" >
       <div class="navigation-wrap bg-light start-header start-style">
         <div class="container">
           <div class="row">
@@ -149,8 +149,10 @@
                   :value="this.$store.state.cart.length"
                   >&#xf07a;</i
                 >
+           
               </span></router-link>
                     </li>
+                     <a href="#demo-modal">Login /Sign Up </a>
                   </ul>
                 </div>
               </nav>
@@ -158,6 +160,31 @@
           </div>
         </div>
       </div>
+ 
+
+<div id="demo-modal" class="modal">
+    <div class="modal__content">
+        <!-- <h2>Login With Google</h2> -->
+    <!-- <a href="#" class="google-signup" @click.prevent="loginWithGoogle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><title>Google</title><g fill="none" fill-rule="evenodd"><path fill="#4285F4" d="M17.64 9.2045c0-.6381-.0573-1.2518-.1636-1.8409H9v3.4814h4.8436c-.2086 1.125-.8427 2.0782-1.7959 2.7164v2.2581h2.9087c1.7018-1.5668 2.6836-3.874 2.6836-6.615z"></path><path fill="#34A853" d="M9 18c2.43 0 4.4673-.806 5.9564-2.1805l-2.9087-2.2581c-.8059.54-1.8368.859-3.0477.859-2.344 0-4.3282-1.5831-5.036-3.7104H.9574v2.3318C2.4382 15.9832 5.4818 18 9 18z"></path><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.2822-1.1168-.2822-1.71s.1023-1.17.2823-1.71V4.9582H.9573A8.9965 8.9965 0 0 0 0 9c0 1.4523.3477 2.8268.9573 4.0418L3.964 10.71z"></path><path fill="#EA4335" d="M9 3.5795c1.3214 0 2.5077.4541 3.4405 1.346l2.5813-2.5814C13.4632.8918 11.426 0 9 0 5.4818 0 2.4382 2.0168.9573 4.9582L3.964 7.29C4.6718 5.1627 6.6559 3.5795 9 3.5795z"></path></g></svg>
+      Google
+    </a> -->
+        <!-- <p> -->
+            <div class="g_body">
+    <button class="g-button"  @click.prevent="loginWithGoogle">
+      <img class="g-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/157px-Google_%22G%22_Logo.svg.png" alt="Google Logo">
+      <p class="g-text">Sign in with Google</p>
+    </button>
+  </div>
+<!-- </p> -->
+
+        <div class="modal__footer">
+            <!-- Made with <i class="fa fa-heart"></i>, by <a href="https://twitter.com/denicmarko" target="_blank">@denicmarko</a> -->
+        </div>
+
+        <a href="#" class="modal__close">&times;</a>
+    </div>
+</div>
       <div class="section full-height">
 
               <router-view />
@@ -192,6 +219,24 @@ export default {
     // });
   },
   methods: {
+       loginWithGoogle () {
+         debugger
+      this.$gAuth
+        .signIn()
+        .then(GoogleUser => {
+          // on success do something
+          console.log('GoogleUser', GoogleUser)
+          var userInfo = {
+            loginType: 'google',
+            google: GoogleUser
+          }
+          this.$store.commit('setLoginUser', userInfo)
+          // router.push('/home')
+        })
+        .catch(error => {
+          console.log('error', error)
+        })
+    },
     placeOrder() {
       this.$store.dispatch("placeOrder", this.$store.state.cart);
       this.cart = !this.cart;
@@ -214,6 +259,34 @@ export default {
 /* #Primary
 ================================================== */
 
+.g_body{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.g-button{
+  border: 1px solid rgb(169, 164, 164);
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background: rgb(169, 164, 164);
+  display: flex;
+}
+
+.g-logo{
+  width: 45px;
+  height: 41px;
+  padding: 8px 10px;
+  /* background: white; */
+}
+
+.g-text{
+  font-size: 16px;
+  padding: 8px 10px;
+  color: white;
+  font-family: roboto;
+  text-align: center;
+}
 body {
   font-family: "Poppins", sans-serif;
   font-size: 16px;
@@ -239,7 +312,69 @@ body {
 
 /* #Navigation
 ================================================== */
+/* If you like this, be sure to ❤️ it. */
+.wrapper {
+  height: 100vh;
+  /* This part is important for centering the content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* End center */
+  background: -webkit-linear-gradient(to right, #834d9b, #d04ed6);
+  background: linear-gradient(to right, #834d9b, #d04ed6);
+}
 
+.wrapper a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 3px;
+  text-transform: uppercase;
+  color: #585858;
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, .7);
+  transition: all .4s;
+}
+
+.modal:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__content {
+  border-radius: 4px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  background: #fff;
+  padding: 1em 2em;
+}
+
+.modal__footer {
+  text-align: right;
+
+}
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #585858;
+  text-decoration: none;
+}
 .start-header {
   opacity: 1;
   transform: translateY(0);

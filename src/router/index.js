@@ -3,10 +3,16 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import cart from '../views/cart.vue'
 import Login from '../views/Login.vue'
+import ProducDetails from '../views/ProducDetails.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/details',
+    name: 'ProducDetails',
+    component: ProducDetails
+  },
   {
     path: '/myOrders',
     name: 'Home',

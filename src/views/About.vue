@@ -6,6 +6,7 @@
     <!-- <h1>This is an about page</h1> -->
 
     <div class="row">
+    
       <div
         
         v-for="product in products"
@@ -22,7 +23,8 @@
                       <h3>${{ product.price }}</h3>
                     </div>
                     <div class="view">
-                      <a href="">View Details</a>
+                      <p @click="showDetails(product)">View Details</p>
+                       
                     </div>
                   </div>
                   <hr />
@@ -38,6 +40,7 @@
                         ></i
                         >Add To Cart</span
                       >
+
                     </div>
                     <!-- <a href=""> Cancel</a> -->
                   </div>
@@ -55,6 +58,10 @@ export default {
     return {};
   },
   methods: {
+    showDetails(product){
+      this.$router.push({path:'/details',query: { id: product.id }})
+
+    },
     addToCart(product) {
       this.$store.dispatch("addToCart", product);
     },
@@ -67,6 +74,11 @@ export default {
 };
 </script>
 <style scoped>
+p{
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
 @media (max-width: 767px) {
 .row {
   padding: 2em;

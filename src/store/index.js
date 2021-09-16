@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userData: localStorage.userInfo? JSON.parse(localStorage.userInfo) : {},
+    userData: localStorage.userInfo? JSON.parse(localStorage.userInfo) : null,
     count: 0,
     totalItemsInCart:0,
     cart:[],
